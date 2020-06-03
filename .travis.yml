@@ -8,3 +8,18 @@ before_install:
 
 script:
   - docker run -e CI=true sushangagneja/docker-react npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  #depends on where the EBS instance was created in
+  region: "us-east-2"
+  app: "docker-react"
+  env: "DockerReact-env" # name of env in AWS EBS
+  bucket_name: "elasticbeanstalk-us-east-2-054677318272" # Name of S3 hardrive on AWS
+  bucket_path: "docker-react"
+  on:
+    branch: master
+
+# Generated in AWS when a user is created for travis ci to access our aws EBS
+access_key_id: $AWS_ACCESS_KEY
+secret_access_key: $AWS_SECRET_KEY
